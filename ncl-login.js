@@ -58,7 +58,12 @@ exports.login = function(url, user, callback)
         if(error)
             return callback(error || { error: 401 }, null);
 
-        var cookie = response.headers["set-cookie"][0];
+        var cookie;
+
+        response.headers["set-cookie"].forEach(function(c) {
+                if(c.indexOf("shibsession") !== -1)
+                    cookie = c;
+        });
 
         request.get({ url: url, jar: jar }, function (error, response, body) {
 
