@@ -34,14 +34,22 @@ exports.login = function(url, user, callback)
         request.get({ url: url, jar: jar }, function (error, response, body) {
 
             if(error)
-                callback(error || { error: 401 }, null);
+                return callback(error || { error: 401 }, null);
             
             var $ = cheerio.load(body);
             var $form = $('form');
             var action = $form.attr('action');
             var response = $form.find('input[name=SAMLResponse]').attr('value');
+            var target = $form.find('input[name=TARGET]');
 
-            request.post({ url: action, jar: jar, form: { SAMLResponse: response } }, onLoginResponse);
+            request.post({
+                url: action,
+                jar: jar,
+                form: {
+                    SAMLResponse: response,
+                    TARGET: target.length > 0 ? target.attr('value') : ''
+                }
+            }, onLoginResponse);
         });
     }
 
@@ -49,8 +57,6 @@ exports.login = function(url, user, callback)
     {
         if(error)
             return callback(error || { error: 401 }, null);
-
-        console.log(response);
 
         var cookie = response.headers["set-cookie"][0];
 
@@ -61,16 +67,7 @@ exports.login = function(url, user, callback)
 
             var $ = cheerio.load(body);
 
-            var response = {
-                name: $('#uname').text().trim().split(' (')[0],
-                fullid: $('#uname').text().trim().split(' (')[1].slice(0, -1),
-                cookie: cookie
-            };
-
-            callback(null, response);
+            callback(null, cookie, $);
         });
     }
 }
-
-
-
