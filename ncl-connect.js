@@ -76,3 +76,41 @@ exports.login = function(url, user, callback)
         });
     }
 }
+
+exports.getPage = function(user, url, callback)
+{
+    if(user.dev) {
+        var fs = require('fs');
+        var filename = url.split('?')[0].substring(23).replace(/\//g, '-');
+        var file = fs.readFileSync('testHTML/' + filename, 'utf8');
+        var $ = cheerio.load(file);
+        callback(null, $);
+    }
+    else {
+        if(!user.cookie)
+            callback({error: 401}, null);
+        else {
+            var headers = {
+                'Cookie': user.cookie
+            };
+            request.get({
+              url: url,
+              headers: headers
+            }, function (error, response, body)
+            {
+                if (!error && response.statusCode == 200)
+                {
+                    var $ = cheerio.load(body);
+
+                    callback(null, $);
+                }
+                else
+                {
+                    callback(error || { error: 401 }, null);
+                }
+            });
+        }
+    }
+}
+
+
