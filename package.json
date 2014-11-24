@@ -1,5 +1,5 @@
 {
-  "name": "ncl-login",
+  "name": "ncl-connect",
   "version": "0.0.1",
   "description": "Provides access to the Newcastle University login gateway for NESSweb and related projects",
   "main": "ncl-connect.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/StudentsNCL/ncl-login.git"
+    "url": "https://github.com/StudentsNCL/ncl-connect.git"
   },
   "author": "",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/StudentsNCL/ncl-login/issues"
+    "url": "https://github.com/StudentsNCL/ncl-connect/issues"
   },
-  "homepage": "https://github.com/StudentsNCL/ncl-login",
+  "homepage": "https://github.com/StudentsNCL/ncl-connect",
   "dependencies": {
     "cheerio": "^0.18.0",
     "form-data": "^0.1.4",
