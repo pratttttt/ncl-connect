@@ -19,8 +19,9 @@ exports.login = function(url, user, callback)
             form: {
                 j_username: user.id,
                 j_password: user.pass,
-                _eventId: 'submit',
-                submit: 'LOGIN'
+                /* Seems to be working without these */
+                //_eventId: 'submit',
+                //submit: 'LOGIN'
             }
 
         }, onGatewayResponse);
